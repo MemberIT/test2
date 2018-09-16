@@ -20,13 +20,13 @@ nginx::keepalive_timeout: '120'
 nginx::keepalive_requests: '200'
 nginx::ssl_protocols: 'TLSv1.2 TLSv1.1'
 # python settings
-python::dev: present
-python::gunicorn: present
+python::dev: 'present'
+python::gunicorn: 'present'
 python::gunicorn_package_name: 'gunicorn3'
 python::provider: 'pip'
 python::python_pyvenvs:
   "%{hiera('epl_project_path')}":
-    ensure: present
+    ensure: 'present'
     version: 'system'
     systempkgs: true
     venv_dir: "%{hiera('epl_project_path')}/env"
@@ -40,7 +40,7 @@ python::requirements:
     group: "%{hiera('nginx::daemon_group')}"
 python::gunicorn:
   epl:
-    ensure: present
+    ensure: 'present'
     virtualenv: "%{hiera('epl_project_path')}/env"
     mode: 'wsgi'
     dir: "%{hiera('epl_project_path')}/env/app"
