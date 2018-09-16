@@ -29,7 +29,7 @@ Vagrant.configure(2) do |config|
       config.vm.network :private_network, ip: opts[:eth0]
 
       config.vm.provision "shell", inline: <<-SHELL
-        wget -q https://apt.puppetlabs.com/puppet5-release-xenial.deb
+        wget -q https://apt.puppetlabs.com/puppet5-release-xenia`l.deb
         dpkg -i puppet5-release-xenial.deb
         apt-get update
         apt-get upgrade -y
@@ -38,7 +38,7 @@ Vagrant.configure(2) do |config|
         apt-get install puppet-agent && systemctl stop puppet.service && systemctl stop mcollective.service && \
           systemctl disable puppet.service && systemctl disable mcollective.service
         wget -q https://raw.githubusercontent.com/MemberIT/test2/production/r10k.yaml -O /tmp/r10k.yaml
-        r10k deploy -c /tmp/r10k.yaml environment production -p Puppetfile.`hostname -s` --color -t -v debug
+        r10k deploy -c /tmp/r10k.yaml environment production -p --color -t -v debug
         echo -e "linuxpassword\nlinuxpassword" | passwd vagrant
       SHELL
     
