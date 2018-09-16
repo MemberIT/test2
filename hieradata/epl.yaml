@@ -43,7 +43,7 @@ python::gunicorn:
     ensure: present
     virtualenv: "%{hiera('epl_project_path')}/env"
     mode: 'wsgi'
-    dir: '/srv/epl/venv/app'
+    dir: "%{hiera('epl_project_path')}/env/app"
     bind: "%{hiera('epl_address')}:%{hiera('epl_port')}"
     environment: 'production'
     appmodule: 'app:app'

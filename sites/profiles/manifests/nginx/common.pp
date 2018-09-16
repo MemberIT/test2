@@ -9,6 +9,7 @@ class profiles::nginx::common {
   if empty($nginx_version) {
     fail("Hiera data 'nginx_version' is empty!")
   }
+  include ::nginx::params
   $invalid_vhost = '<!DOCTYPE html><html><body><h1>Invalid VirtualHost!</h1></body></html>'
   class { '::nginx':
     worker_processes         => $::processorcount,
