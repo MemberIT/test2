@@ -29,7 +29,7 @@ Vagrant.configure(2) do |config|
       config.vm.network :private_network, ip: opts[:eth0]
 
       config.vm.provision "shell", inline: <<-SHELL
-        wget -q https://apt.puppetlabs.com/puppet5-release-xenia`l.deb
+        wget -q https://apt.puppetlabs.com/puppet5-release-xenial.deb
         dpkg -i puppet5-release-xenial.deb
         apt-get update
         apt-get upgrade -y
