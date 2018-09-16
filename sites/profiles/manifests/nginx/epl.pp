@@ -14,12 +14,11 @@ class profiles::nginx::epl {
      fail("Hiera data 'epl_port' not found!")
   }
   ::nginx::resource::server { 'epl.memberit.ru':
-    ensure              => present,
-    server_name         => [ 'epl.memberit.ru' ],
-    resolver            => $::dns_nameservers,
-    format_log          => 'json_main',
-    error_log           => '/var/log/nginx/error.log warn',
-    proxy               => "http://${epl_address}:${epl_port}",
+    ensure      => present,
+    server_name => [ 'epl.memberit.ru' ],
+    format_log  => 'json_main',
+    error_log   => '/var/log/nginx/error.log warn',
+    proxy       => "http://${epl_address}:${epl_port}",
   }
 }
 

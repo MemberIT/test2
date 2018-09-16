@@ -59,7 +59,6 @@ class profiles::nginx::common {
     server_name         => [ '_' ],
     listen_port         => 80,
     listen_options      => 'default_server',
-    resolver            =>  $::dns_nameservers,
     access_log          => '/var/log/nginx/access.log',
     format_log          => 'main',
     error_log           => '/var/log/nginx/error.log warn',
