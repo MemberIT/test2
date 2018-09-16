@@ -1,0 +1,52 @@
+---
+# epl settings
+epl_address: '127.0.0.1'
+epl_port: 9000
+epl_project_path: '/srv/epl'
+epl_url_repo: 'https://github.com/MemberIT/football-data.git'
+epl_git_revision: 'master'
+epl_api_token: '2174fc83ec034e49ac3d25f7fb666864'
+# nginx settings
+nginx_version: '1.14.0-1~xenial'
+nginx::package_name: 'nginx'
+nginx::daemon_user: 'www-data'
+nginx::daemon_group: 'www-data'
+nginx::log_dir: '/var/log/nginx'
+nginx::pid: '/var/run/nginx.pid'
+nginx::worker_connections: 2048
+nginx::worker_rlimit_nofile: 2048
+nginx::http_access_log: '/var/log/nginx/access.log json_main'
+nginx::keepalive_timeout: '120'
+nginx::keepalive_requests: '200'
+nginx::ssl_protocols: 'TLSv1.2 TLSv1.1'
+# python settings
+python::dev: present
+python::gunicorn: present
+python::gunicorn_package_name: 'gunicorn3'
+python::provider: 'pip'
+python::python_pyvenvs:
+  "%{hiera('epl_project_path')}":
+    ensure: present
+    version: 'system'
+    systempkgs: true
+    venv_dir: "%{hiera('epl_project_path')}/env"
+    owner: "%{hiera('nginx::daemon_user')}"
+    group: "%{hiera('nginx::daemon_group')}"
+python::requirements:
+  "%{hiera('epl_project_path')}/requirements.txt":
+    pip_provider: 'pip3'
+    virtualenv: "%{hiera('epl_project_path')}/env"
+    owner: "%{hiera('nginx::daemon_user')}"
+    group: "%{hiera('nginx::daemon_group')}"
+python::gunicorn:
+  epl:
+    ensure: present
+    virtualenv: "%{hiera('epl_project_path')}/env"
+    mode: 'wsgi'
+    dir: '/srv/epl/venv/app'
+    bind: "%{hiera('epl_address')}:%{hiera('epl_port')}"
+    environment: 'production'
+    appmodule: 'app:app'
+    osenv:
+      SECRET_KEY: "%{hiera('epl_api_token')}"
+    timeout: 30
