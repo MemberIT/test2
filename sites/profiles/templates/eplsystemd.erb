@@ -7,9 +7,8 @@ After=network.target
 PIDFile=/run/epl_gunicorn.pid
 User=<%= @epl_user %>
 Group=<%= @epl_user %>
-RuntimeDirectory=gunicorn
 WorkingDirectory=<%= @epl_project_path %>/app
-ExecStart=/usr/bin/gunicorn3 --pid /run/epl_gunicorn.pid --bind <%= @epl_address %>:<%= @epl_port %> /etc/gunicorn.d/epl
+ExecStart=/usr/bin/gunicorn --pid /run/epl_gunicorn.pid --bind <%= @epl_address %>:<%= @epl_port %> -c /etc/gunicorn.d/epl
 ExecReload=/bin/kill -s HUP $MAINPID
 ExecStop=/bin/kill -s TERM $MAINPID
 PrivateTmp=true

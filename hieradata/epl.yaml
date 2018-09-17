@@ -23,9 +23,9 @@ nginx::keepalive_requests: '200'
 nginx::ssl_protocols: 'TLSv1.2 TLSv1.1'
 # python settings
 python::dev: 'present'
-python::gunicorn: 'present'
-python::gunicorn_package_name: 'gunicorn3'
+python::virtualenv: 'present'
 python::provider: 'pip'
+python::gunicorn: 'present'
 python::python_pyvenvs:
   "%{hiera('epl_project_path')}":
     ensure: 'present'
@@ -34,20 +34,21 @@ python::python_pyvenvs:
     venv_dir: "%{hiera('epl_project_path')}/env"
     owner: "%{hiera('nginx::daemon_user')}"
     group: "%{hiera('nginx::daemon_group')}"
-python::python_pyvenvs:
+python::python_virtualenvs:
   "%{hiera('epl_project_path')}":
     ensure: 'present'
     version: 'system'
-    systempkgs: true
+    requirements: "%{hiera('epl_project_path')}/requirements.txt"
     venv_dir: "%{hiera('epl_project_path')}/env"
     owner: "%{hiera('nginx::daemon_user')}"
     group: "%{hiera('nginx::daemon_group')}"
-python::requirements:
-  "%{hiera('epl_project_path')}/requirements.txt":
-    pip_provider: 'pip3'
-    virtualenv: "%{hiera('epl_project_path')}/env"
-    owner: "%{hiera('nginx::daemon_user')}"
-    group: "%{hiera('nginx::daemon_group')}"
+    cwd: "%{hiera('epl_project_path')}"
+#python::requirements:
+#  "%{hiera('epl_project_path')}/requirements.txt":
+#    pip_provider: 'pip3'
+#    virtualenv: "%{hiera('epl_project_path')}/env"
+#    owner: "%{hiera('nginx::daemon_user')}"
+#    group: "%{hiera('nginx::daemon_group')}"
 python::gunicorns:
   epl:
     ensure: 'present'

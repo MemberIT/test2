@@ -5,7 +5,6 @@
 # =======================
 #
 class profiles::python {
-  package { ['python3-venv', 'python3-pip']: } ->
   class { '::python':
     python_pips         => lookup('python::python_pips', Hash, 'deep', {}),
     python_virtualenvs  => lookup('python::python_virtualenvs', Hash, 'deep', {}),
