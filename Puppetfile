@@ -30,8 +30,3 @@ mod 'vcsrepo',
   :git => 'https://github.com/puppetlabs/puppetlabs-vcsrepo.git',
   :tag => '2.3.0'
 
-# Install camptocamp/systemd and pin to the '2.1.0' tag
-mod 'systemd',
-  :git => 'https://github.com/camptocamp/puppet-systemd.git',
-  :tag => '2.1.0'
-

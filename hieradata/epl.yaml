@@ -26,35 +26,21 @@ python::dev: 'present'
 python::virtualenv: 'present'
 python::provider: 'pip'
 python::gunicorn: 'present'
-python::python_pyvenvs:
-  "%{hiera('epl_project_path')}":
-    ensure: 'present'
-    version: 'system'
-    systempkgs: true
-    venv_dir: "%{hiera('epl_project_path')}/env"
-    owner: "%{hiera('nginx::daemon_user')}"
-    group: "%{hiera('nginx::daemon_group')}"
 python::python_virtualenvs:
   "%{hiera('epl_project_path')}":
     ensure: 'present'
     version: 'system'
     requirements: "%{hiera('epl_project_path')}/requirements.txt"
     venv_dir: "%{hiera('epl_project_path')}/env"
-    owner: "%{hiera('nginx::daemon_user')}"
-    group: "%{hiera('nginx::daemon_group')}"
+    owner: "%{hiera('epl_user')}"
+    group: "%{hiera('epl_user')}"
     cwd: "%{hiera('epl_project_path')}"
-#python::requirements:
-#  "%{hiera('epl_project_path')}/requirements.txt":
-#    pip_provider: 'pip3'
-#    virtualenv: "%{hiera('epl_project_path')}/env"
-#    owner: "%{hiera('nginx::daemon_user')}"
-#    group: "%{hiera('nginx::daemon_group')}"
 python::gunicorns:
   epl:
     ensure: 'present'
     virtualenv: "%{hiera('epl_project_path')}/env"
     mode: 'wsgi'
-    dir: "%{hiera('epl_project_path')}/app"
+    dir: "%{hiera('epl_project_path')}"
     bind: "%{hiera('epl_address')}:%{hiera('epl_port')}"
     environment: 'production'
     appmodule: 'app:app'

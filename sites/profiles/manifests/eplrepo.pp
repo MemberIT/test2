@@ -26,8 +26,9 @@ class profiles::eplrepo {
     fail("Hiera data 'epl_git_revision' is empty!")
   }
   user { $epl_user:
-    ensure => present,
-    shell  => '/sbin/nologin',
+    ensure     => present,
+    shell      => '/usr/sbin/nologin',
+    managehome => true,
   } ->
   file { $epl_www:
     ensure => directory,
@@ -41,7 +42,7 @@ class profiles::eplrepo {
     source   => $epl_url_repo,
     revision => $epl_git_revision,
     user     => $epl_user,
-    before   => ::Python::Pyvenv[$epl_project_path],
+    before   => ::Python::Virtualenv[$epl_project_path],
   } 
 }
 

@@ -17,6 +17,7 @@ class profiles::nginx::epl {
     ensure      => present,
     server_name => [ 'epl.memberit.ru' ],
     format_log  => 'json_main',
+    access_log  => '/var/log/nginx/access.log',
     error_log   => '/var/log/nginx/error.log warn',
     proxy       => "http://${epl_address}:${epl_port}",
   }

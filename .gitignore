@@ -5,3 +5,4 @@ modules
 *.out
 *.log
 .vagrant
+.r10k-deploy.json
