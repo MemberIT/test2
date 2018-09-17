@@ -47,7 +47,7 @@ class profiles::nginx::common {
       charset_types             => '*',
       proxy_ignore_client_abort => 'on',
     },
-    manage_repo              => false,
+    manage_repo              => true,
     package_ensure           => $nginx_version,
     nginx_cfg_prepend        => {
       include => [

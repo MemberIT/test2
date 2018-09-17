@@ -1,8 +1,10 @@
 ---
 # epl settings
+epl_user: 'epl_www'
 epl_address: '127.0.0.1'
 epl_port: 9000
-epl_project_path: '/srv/epl'
+epl_www: '/srv/www'
+epl_project_path: "%{hiera('epl_www')}/epl"
 epl_url_repo: 'https://github.com/MemberIT/football-data.git'
 epl_git_revision: 'master'
 epl_api_token: '2174fc83ec034e49ac3d25f7fb666864'
@@ -32,21 +34,30 @@ python::python_pyvenvs:
     venv_dir: "%{hiera('epl_project_path')}/env"
     owner: "%{hiera('nginx::daemon_user')}"
     group: "%{hiera('nginx::daemon_group')}"
+python::python_pyvenvs:
+  "%{hiera('epl_project_path')}":
+    ensure: 'present'
+    version: 'system'
+    systempkgs: true
+    venv_dir: "%{hiera('epl_project_path')}/env"
+    owner: "%{hiera('nginx::daemon_user')}"
+    group: "%{hiera('nginx::daemon_group')}"
 python::requirements:
   "%{hiera('epl_project_path')}/requirements.txt":
     pip_provider: 'pip3'
     virtualenv: "%{hiera('epl_project_path')}/env"
     owner: "%{hiera('nginx::daemon_user')}"
     group: "%{hiera('nginx::daemon_group')}"
-python::gunicorn:
+python::gunicorns:
   epl:
     ensure: 'present'
     virtualenv: "%{hiera('epl_project_path')}/env"
     mode: 'wsgi'
-    dir: "%{hiera('epl_project_path')}/env/app"
+    dir: "%{hiera('epl_project_path')}/app"
     bind: "%{hiera('epl_address')}:%{hiera('epl_port')}"
     environment: 'production'
     appmodule: 'app:app'
     osenv:
       SECRET_KEY: "%{hiera('epl_api_token')}"
     timeout: 30
+    manage_config_dir: true

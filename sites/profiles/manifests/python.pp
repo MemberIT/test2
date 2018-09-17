@@ -5,11 +5,13 @@
 # =======================
 #
 class profiles::python {
+  package { ['python3-venv', 'python3-pip']: } ->
   class { '::python':
     python_pips         => lookup('python::python_pips', Hash, 'deep', {}),
     python_virtualenvs  => lookup('python::python_virtualenvs', Hash, 'deep', {}),
     python_pyvenvs      => lookup('python::python_pyvenvs', Hash, 'deep', {}),
     python_requirements => lookup('python::python_requirements', Hash, 'deep', {}),
   }
+  create_resources('::python::gunicorn', lookup('python::gunicorns', Hash, 'deep', {}))
 }
 

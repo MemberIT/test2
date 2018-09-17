@@ -17,8 +17,10 @@ class profiles::eplsystemd {
   if $epl_port == 0 {
      fail("Hiera data 'epl_port' not found!")
   }
-  $user = $::nginx::daemon_user
-  $group = $::nginx::daemon_group 
+  $epl_user = lookup('epl_user', String, 'first', '')
+  if empty($epl_user) {
+    fail("Hiera data 'epl_user' is empty!")
+  }
   ::systemd::unit_file { 'epl_gunicorn.service':
     content => template("${module_name}/eplsystemd.erb"),
   } ~>
