@@ -31,6 +31,7 @@ python::python_virtualenvs:
     ensure: 'present'
     version: 'system'
     requirements: "%{hiera('epl_project_path')}/requirements.txt"
+    systempkgs: true
     venv_dir: "%{hiera('epl_project_path')}/env"
     owner: "%{hiera('epl_user')}"
     group: "%{hiera('epl_user')}"
@@ -43,6 +44,8 @@ python::gunicorns:
     dir: "%{hiera('epl_project_path')}"
     bind: "%{hiera('epl_address')}:%{hiera('epl_port')}"
     environment: 'production'
+    owner: "%{hiera('epl_user')}"
+    group: "%{hiera('epl_user')}"
     appmodule: 'app:app'
     osenv:
       SECRET_KEY: "%{hiera('epl_api_token')}"
