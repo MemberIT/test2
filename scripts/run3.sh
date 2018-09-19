@@ -5,4 +5,6 @@ vagrant up epl
 
 curl -i http://epl.memberit.ru
 
+echo 'Open url http://epl.memberit.ru !!!'
+
 exit 0

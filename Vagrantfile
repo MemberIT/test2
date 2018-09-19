@@ -39,7 +39,7 @@ Vagrant.configure(2) do |config|
           systemctl disable puppet.service && systemctl disable mcollective.service
         wget -q https://raw.githubusercontent.com/MemberIT/test2/production/r10k.yaml -O /tmp/r10k.yaml
         r10k deploy -c /tmp/r10k.yaml environment production -p --color -t -v debug
-        echo -e "linuxpassword\nlinuxpassword" | passwd vagrant
+        #echo 'your_key' >> /home/vagrant/.ssh/authorized_keys
       SHELL
     
       config.vm.provision "shell", inline: '/bin/bash /etc/puppetlabs/code/environments/production/scripts/puppet_apply.sh'

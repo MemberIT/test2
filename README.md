@@ -16,5 +16,5 @@ _Составить конфигурацию в nginx для вывода дан
 #### Решение:
 * [Установите Vagrant](https://www.vagrantup.com/downloads.html "Загрузка Vagrant")
 * [Установите VirtualBox](https://www.virtualbox.org/wiki/Downloads "Загрузка VirtualBox") или пакетный менеджер вашего дистрибутива
-
+* Запустить скрипт `./scripts/run3.sh`
 
